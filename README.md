@@ -1,4 +1,4 @@
-# comicAtom
+# comicAtom WebGL
 
 To run:
 
