@@ -1,0 +1,105 @@
+<html>
+    <body>
+        <script src="assets/three.min.js"></script>
+        <script src="assets/TrackballControls.js"></script>
+
+        <script>
+            var camera, controls, scene, renderer;
+
+            init();
+            animate();
+
+             function animate(){
+                requestAnimationFrame( animate );
+                controls.update(); 
+            }
+
+            function render(){
+                renderer.render( scene, camera );
+            } 
+
+            function animateMotion (mesh3,mesh2,mesh4,refx2,refx3,refz3,refz4,refy4,refy2) {
+                var i =0;
+                setInterval(function(){
+                if(i===360)i=0;
+                mesh3.position.x = refx3*Math.cos(i);
+                mesh3.position.z = refz3*Math.sin(i);
+                mesh2.position.x = refx2*Math.cos(i);
+                mesh2.position.y = refy2*Math.sin(i);
+                mesh4.position.y = refy4*Math.sin(i);
+                mesh4.position.z = refz4*Math.cos(i);
+
+                i=i+0.04;
+                render();
+                },5);
+            }
+
+
+            function init(){
+                var i = 0;
+                camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
+                camera.position.x = 100;
+                camera.position.y = 100;
+                camera.position.z = 700;
+
+                controls = new THREE.TrackballControls( camera );
+                controls.addEventListener('change', render);
+
+                scene = new THREE.Scene();
+                
+                var geometry = new THREE.SphereGeometry(50,50,50);
+                var material = new THREE.MeshLambertMaterial();
+
+                var mesh1 = new THREE.Mesh( geometry, material);
+                    mesh1.position.x = 0;
+                    mesh1.position.y = 0;
+                    mesh1.position.z = 0;
+                    mesh1.material.color = new THREE.Color( 0xff0000 );
+                    scene.add(mesh1);
+
+                var geometry = new THREE.SphereGeometry(10,10,10);
+                var material = new THREE.MeshLambertMaterial();
+
+                    var mesh2 = new THREE.Mesh( geometry, material);
+                    mesh2.position.x = ( 150);
+                    mesh2.position.y = ( 250);
+                    mesh2.position.z = 0;
+                    mesh2.material.color = new THREE.Color( 0x4900FD  );
+                    var refx2 = mesh2.position.x;
+                    var refy2 = mesh2.position.y;
+                    scene.add(mesh2);
+
+                    var mesh3 = new THREE.Mesh( geometry, material);
+                    mesh3.position.x = ( 200);
+                    mesh3.position.y = 0;
+                    mesh3.position.z = ( 200);
+                    mesh3.material.color = new THREE.Color( 0x4900FD  );
+                    var refx3 = mesh3.position.x;
+                    var refz3 = mesh3.position.z;
+                    scene.add(mesh3);
+
+
+                    var mesh4 = new THREE.Mesh( geometry, material);
+                    mesh4.position.x = 0;
+                    mesh4.position.y = ( 150);
+                    mesh4.position.z = ( 225);
+                    mesh4.material.color = new THREE.Color( 0x4900FD  );
+                    var refy4 = mesh4.position.y;
+                    var refz4 = mesh4.position.z;
+                    scene.add(mesh4);
+
+                var directionalLight1 = new THREE.DirectionalLight( 0xffffff, 0.8 );
+                directionalLight1.position.set( 100000, 1000, 0 );
+                scene.add( directionalLight1 );
+
+
+                renderer = new THREE.WebGLRenderer();
+                renderer.setSize(window.innerWidth, window.innerHeight)
+                document.body.appendChild(renderer.domElement);
+
+                animateMotion(mesh3,mesh2,mesh4,refx2,refx3,refz3,refz4,refy4,refy2);
+            }
+
+        </script>
+    </body>
+</html>
